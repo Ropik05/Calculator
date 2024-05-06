@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class CalculatorMain {
     private final Calculation calc;
     private final Scanner scanner;
-    private boolean EndWork = true;
+    private boolean Endwork;
     private final List<String> startMenu = Arrays.asList(
             "1.Двоичная","2.Восьмиричная","3.Десятичная","4.Шеснадчатиричная","5.Выход"
     );
@@ -19,6 +19,8 @@ public class CalculatorMain {
     }
 
     public void performCalculation(Class<? extends Num> numClass){
+        boolean FirstCalc = false;
+        Endwork = true;
         System.out.print(FNum);
         scanner.nextLine();
         try {
@@ -29,21 +31,28 @@ public class CalculatorMain {
             return;
         }
         System.out.println();
-        System.out.print(Oper);
-        calc.setOperation(scanner.nextLine());
-        System.out.println();
-        System.out.print(SeccNum);
-        try {
-            Num b = numClass.getConstructor(String.class).newInstance(scanner.nextLine());
-            calc.setB(b);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return;
+        while (Endwork) {
+            if(FirstCalc){
+                calc.setA(calc.solution());
+            }
+            FirstCalc = true;
+            System.out.print(Oper);
+            calc.setOperation(scanner.nextLine());
+            System.out.println();
+            System.out.print(SeccNum);
+            try {
+                Num b = numClass.getConstructor(String.class).newInstance(scanner.nextLine());
+                calc.setB(b);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+            System.out.println();
+            Num res = calc.solution();
+            System.out.println(calc);
+            System.out.println(res.toStringAllSys());
+            Endwork = continueCalc();
         }
-        System.out.println();
-        Num res = calc.solution();
-        System.out.println(calc);
-        System.out.println(res.toStringAllSys());
     }
     public void start(){
         boolean flag = true;
@@ -73,5 +82,15 @@ public class CalculatorMain {
                 System.out.println(e.getMessage());
             }
         }
+    }
+    static boolean continueCalc(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Продолжить?    Да / Нет");
+        String x = input.nextLine();
+        if (x.equals("Да")|| x.equals("да")){
+            return true;
+        }
+        else if(x.equals("Нет")|| x.equals("нет")) return false;
+        return continueCalc();
     }
 }
