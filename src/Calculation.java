@@ -63,7 +63,7 @@ public class Calculation {
                 else
                     throw new IllegalArgumentException("На 0 делить нельзя");
             default:
-                System.out.println("Как оно сюда попало???");
+                System.out.println("У тебя критическая ошибка");
                 break;
         }
         throw new IllegalArgumentException("Нельзя выполнить!");

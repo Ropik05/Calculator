@@ -4,8 +4,7 @@ import java.util.Scanner;
 
 public class CalculatorMain {
     private final Calculation calc;
-    private final Scanner scanner;
-    private boolean Endwork;
+    private final Scanner input;
     private final List<String> startMenu = Arrays.asList(
             "1.Двоичная","2.Восьмиричная","3.Десятичная","4.Шеснадчатиричная","5.Выход"
     );
@@ -14,34 +13,35 @@ public class CalculatorMain {
     private static final String Oper = "Введите операцию (+,-,/,*): ";
 
     public CalculatorMain(){
-        scanner = new Scanner(System.in);
+        input = new Scanner(System.in);
         calc = new Calculation();
     }
 
     public void performCalculation(Class<? extends Num> numClass){
         boolean FirstCalc = false;
-        Endwork = true;
+        boolean endwork = true;
         System.out.print(FNum);
-        scanner.nextLine();
+        input.nextLine();
         try {
-            Num a = numClass.getConstructor(String.class).newInstance(scanner.nextLine());
+            Num a = numClass.getConstructor(String.class).newInstance(input.nextLine());
             calc.setA(a);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return;
         }
         System.out.println();
-        while (Endwork) {
+        while (endwork) {
             if(FirstCalc){
                 calc.setA(calc.solution());
             }
             FirstCalc = true;
             System.out.print(Oper);
-            calc.setOperation(scanner.nextLine());
+            calc.setOperation(input.nextLine());
             System.out.println();
             System.out.print(SeccNum);
             try {
-                Num b = numClass.getConstructor(String.class).newInstance(scanner.nextLine());
+                Num b = numClass.getConstructor(String.class).newInstance(input.nextLine()); // получает конструктор класса Num, который принимает аргумент типа String.
+                // создает новый объект класса Num, вызывая полученный конструктор с аргументом, который является результатом вызова метода nextLine() объекта input.
                 calc.setB(b);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -49,9 +49,8 @@ public class CalculatorMain {
             }
             System.out.println();
             Num res = calc.solution();
-            System.out.println(calc);
             System.out.println(res.toStringAllSys());
-            Endwork = continueCalc();
+            endwork = continueCalc();
         }
     }
     public void start(){
@@ -59,7 +58,7 @@ public class CalculatorMain {
         while(flag){
             try {
             startMenu.forEach(System.out::println);
-                switch (scanner.next()) {
+                switch (input.next()) {
                     case ("4"):
                         performCalculation(HexNum.class);
                         break;

@@ -24,15 +24,4 @@ public abstract class Num {
         return "Двоичное: " + Integer.toBinaryString(number) + "\n"+ "Восьмиричное: " + Integer.toOctalString(number) + "\n"+ "Десятичное: " + number + "\n"+
                 "Шеснадчатиричное: " + Integer.toHexString(number) + "\n";
     }
-
-    @Override
-    public String toString() {
-        return switch (getNumSystem()) {
-            case (2) -> Integer.toBinaryString(number);
-            case (8) -> Integer.toOctalString(number);
-            case (10) -> Integer.toString(number);
-            case (16) -> Integer.toHexString(number);
-            default -> throw new IllegalArgumentException("Данная система счисления не поддерживается!");
-        };
-    }
 }
