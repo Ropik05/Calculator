@@ -8,19 +8,15 @@ public class CalculatorMain {
     private final List<String> startMenu = Arrays.asList(
             "1.Двоичная","2.Восьмиричная","3.Десятичная","4.Шеснадчатиричная","5.Выход"
     );
-    private static final String FNum = "Введите первое число: ";
-    private static final String SeccNum = "Введите второе число: ";
-    private static final String Oper = "Введите операцию (+,-,/,*): ";
-
     public CalculatorMain(){
         input = new Scanner(System.in);
         calc = new Calculation();
     }
 
-    public void performCalculation(Class<? extends Num> numClass){
+    public void performCalculation(Class<? extends Num> numClass,int num){
         boolean FirstCalc = false;
         boolean endwork = true;
-        System.out.print(FNum);
+        System.out.print("Введите первое значение в формате:  " + startMenu.get(num) + "\n");
         input.nextLine();
         try {
             Num a = numClass.getConstructor(String.class).newInstance(input.nextLine());
@@ -35,10 +31,10 @@ public class CalculatorMain {
                 calc.setA(calc.solution());
             }
             FirstCalc = true;
-            System.out.print(Oper);
+            System.out.print("Введите операцию (+,-,/,*):  ");
             calc.setOperation(input.nextLine());
             System.out.println();
-            System.out.print(SeccNum);
+            System.out.print("Введите второе значение в формате: " + startMenu.get(num) + "\n" );
             try {
                 Num b = numClass.getConstructor(String.class).newInstance(input.nextLine()); // получает конструктор класса Num, который принимает аргумент типа String.
                 // создает новый объект класса Num, вызывая полученный конструктор с аргументом, который является результатом вызова метода nextLine() объекта input.
@@ -54,28 +50,27 @@ public class CalculatorMain {
         }
     }
     public void start(){
-        boolean flag = true;
-        while(flag){
+        while(true){
             try {
             startMenu.forEach(System.out::println);
                 switch (input.next()) {
                     case ("4"):
-                        performCalculation(HexNum.class);
+                        performCalculation(HexNum.class,4);
                         break;
                     case ("3"):
-                        performCalculation(DecNum.class);
+                        performCalculation(DecNum.class,3);
                         break;
                     case ("2"):
-                        performCalculation(OctNum.class);
+                        performCalculation(OctNum.class,2);
                         break;
                     case ("1"):
-                        performCalculation(BinNum.class);
+                        performCalculation(BinNum.class,1);
                         break;
                     case ("5"):
-                        flag = false;
+                        System.exit(0);
                         break;
                     default:
-                        System.out.println("Не знаю такую операцию!");
+                        System.out.println("Выберите одну из предложенных систем.");
                 }
             }catch (Exception e){
                 System.out.println(e.getMessage());
