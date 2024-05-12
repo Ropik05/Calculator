@@ -1,26 +1,25 @@
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class CalculatorMain {
-    private final Calculation calc;
     private final Scanner input;
     private final List<String> startMenu = Arrays.asList(
             "1.Двоичная","2.Восьмиричная","3.Десятичная","4.Шеснадчатиричная","5.Выход"
     );
     public CalculatorMain(){
         input = new Scanner(System.in);
-        calc = new Calculation();
     }
 
     public void performCalculation(Class<? extends Num> numClass,int num){
         boolean FirstCalc = false;
         boolean endwork = true;
+        Num res = null,a,b;
         System.out.print("Введите первое значение в формате:  " + startMenu.get(num-1) + "\n");
         input.nextLine();
         try {
-            Num a = numClass.getConstructor(String.class).newInstance(input.nextLine());
-            calc.setA(a);
+            a = numClass.getConstructor(String.class).newInstance(input.nextLine());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return;
@@ -28,23 +27,27 @@ public class CalculatorMain {
         System.out.println();
         while (endwork) {
             if(FirstCalc){
-                calc.setA(calc.solution());
+                a = res;
             }
             FirstCalc = true;
             System.out.print("Введите операцию (+,-,/,*):  ");
-            calc.setOperation(input.nextLine());
+            String oper = input.nextLine();
             System.out.println();
             System.out.print("Введите второе значение в формате: " + startMenu.get(num-1) + "\n" );
             try {
-                Num b = numClass.getConstructor(String.class).newInstance(input.nextLine()); // получает конструктор класса Num, который принимает аргумент типа String.
+                b = numClass.getConstructor(String.class).newInstance(input.nextLine()); // получает конструктор класса Num, который принимает аргумент типа String.
                 // создает новый объект класса Num, вызывая полученный конструктор с аргументом, который является результатом вызова метода nextLine() объекта input.
-                calc.setB(b);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return;
             }
             System.out.println();
-            Num res = calc.solution();
+            try {
+                res = numClass.getConstructor(int.class).newInstance(doOperation(a,b,oper));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return;
+            }
             System.out.println(res.toStringAllSys());
             endwork = continueCalc();
         }
@@ -77,6 +80,18 @@ public class CalculatorMain {
             }
         }
     }
+
+    public static int doOperation(Num a, Num b, String op){
+
+        return switch (op) {
+            case "+" -> a.getNumber() + b.getNumber();
+            case "-" -> a.getNumber() - b.getNumber();
+            case "*" -> a.getNumber() * b.getNumber();
+            case "/" -> a.getNumber() / b.getNumber();
+            default -> throw new RuntimeException("Указан невалидный оператор");
+        };
+    }
+
     static boolean continueCalc(){
         Scanner input = new Scanner(System.in);
         System.out.println("Продолжить?    Да / Нет");
