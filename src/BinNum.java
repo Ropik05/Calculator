@@ -1,10 +1,8 @@
 public class BinNum extends Num{
     public BinNum(String value){
-        setNumber(toDec(value,"^[-]?[0-1]+$"));
+        super(value,2,"^[-]?[0-1]+$");
     }
-
-    @Override
-    public int getNumSystem() {
-        return 2;
+    public BinNum(int value){
+        super(value,2,"^[-]?[0-1]+$");
     }
 }

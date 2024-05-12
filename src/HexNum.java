@@ -1,11 +1,8 @@
 public class HexNum extends Num{
     public HexNum(String value){
-        int res = toDec(value,"[-]?[0-9A-Fa-f]+");
-        setNumber(res);
+        super(value,16,"[-]?[0-9A-Fa-f]+");
     }
-
-    @Override
-    public int getNumSystem() {
-        return 16;
+    public HexNum(int value){
+        super(value,16,"[-]?[0-9A-Fa-f]+");
     }
 }

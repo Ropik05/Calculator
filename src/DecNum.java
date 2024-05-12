@@ -1,10 +1,8 @@
 public class DecNum extends Num{
     public DecNum(String value){
-        setNumber(toDec(value,"^-?\\d+$"));
+        super(value,10,"^-?\\d+$");
     }
-
-    @Override
-    public int getNumSystem() {
-        return 10;
+    public DecNum(int value){
+        super(value,10,"^-?\\d+$");
     }
 }

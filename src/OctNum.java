@@ -1,10 +1,8 @@
 public class OctNum extends Num{
     public OctNum(String value){
-        setNumber(toDec(value,"^[-]?[0-7]+$"));
+        super(value,8,"^[-]?[0-7]+$");
     }
-
-    @Override
-    public int getNumSystem() {
-        return 8;
+    public OctNum(int value){
+        super(value,8,"^[-]?[0-7]+$");
     }
 }
