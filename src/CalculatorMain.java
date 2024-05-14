@@ -19,7 +19,14 @@ public class CalculatorMain {
         System.out.print("Введите первое значение в формате:  " + startMenu.get(num-1) + "\n");
         input.nextLine();
         try {
-            a = numClass.getConstructor(String.class).newInstance(input.nextLine());
+            String Fa = input.nextLine();
+            if(Fa.matches("^(?!0).*$")) {
+                a = numClass.getConstructor(String.class).newInstance(Fa);
+            }
+            else {
+                System.out.println("Число не должно начинаться с 0");
+                return;
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return;
@@ -35,8 +42,15 @@ public class CalculatorMain {
             System.out.println();
             System.out.print("Введите второе значение в формате: " + startMenu.get(num-1) + "\n" );
             try {
-                b = numClass.getConstructor(String.class).newInstance(input.nextLine()); // получает конструктор класса Num, который принимает аргумент типа String.
+                String Sa = input.nextLine();
+                if(Sa.matches("^(?!0).*$")) {
+                    b = numClass.getConstructor(String.class).newInstance(Sa); // получает конструктор класса Num, который принимает аргумент типа String.
+                }
                 // создает новый объект класса Num, вызывая полученный конструктор с аргументом, который является результатом вызова метода nextLine() объекта input.
+                else{
+                    System.out.println("Ошибка ввода");
+                    return;
+                }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return;
