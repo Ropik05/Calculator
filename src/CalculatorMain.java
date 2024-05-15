@@ -22,8 +22,10 @@ public class CalculatorMain {
             String Fa = input.nextLine();
             if(Fa.matches("^(?!0).*$")) {
                 a = numClass.getConstructor(String.class).newInstance(Fa);
-            }
-            else {
+            } else if (num == 1) {
+                a = numClass.getConstructor(String.class).newInstance(Fa);
+            } else
+            {
                 System.out.println("Число не должно начинаться с 0");
                 return;
             }
@@ -45,6 +47,9 @@ public class CalculatorMain {
                 String Sa = input.nextLine();
                 if(Sa.matches("^(?!0).*$")) {
                     b = numClass.getConstructor(String.class).newInstance(Sa); // получает конструктор класса Num, который принимает аргумент типа String.
+                }
+                else if (num == 1) {
+                    b = numClass.getConstructor(String.class).newInstance(Sa);
                 }
                 // создает новый объект класса Num, вызывая полученный конструктор с аргументом, который является результатом вызова метода nextLine() объекта input.
                 else{
